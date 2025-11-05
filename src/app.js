@@ -1,13 +1,9 @@
 function greet(name) {
-    return 'Hello, $(name)!';
-
-
+  return `Hello, ${name}!`;
 }
 
-MediaSourceHandle.exports= greet;
+module.exports = greet;
 
-if(requestAnimationFrame.main ---module) {
-
-    console.log(greet("World"));
-    
+if (require.main === module) {
+  console.log(greet("World"));
 }
