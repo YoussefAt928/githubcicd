@@ -36,3 +36,41 @@ jobs:
 
       - name: Run tests
         run: npm test
+name: Node tests
+
+on:
+  push:
+    branches: [ "main", "release/**" ]
+    paths: [ "src/**", "package.json", ".github/workflows/**" ]
+  pull_request:
+    branches: [ "main", "release/**" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          # ✅ disable cache dependency on lock file
+          cache-dependency-path: '**/package.json'
+
+      - name: Ensure LF endings
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y dos2unix
+          dos2unix src/test.sh
+
+      - name: Make test script executable
+        run: chmod +x src/test.sh
+
+      - name: Install dependencies (no lock file)
+        run: npm install --no-audit --no-fund
+
+      - name: Run tests
+        run: npm test
