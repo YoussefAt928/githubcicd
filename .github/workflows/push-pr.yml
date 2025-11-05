@@ -31,7 +31,8 @@ jobs:
         run: chmod +x src/test.sh
 
       - name: Install (if you add deps later)
-        run: npm ci --ignore-scripts || true
+        run: npm install
+
 
       - name: Run tests
         run: npm test
